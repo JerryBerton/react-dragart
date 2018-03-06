@@ -1,7 +1,7 @@
 {
   "name": "react-dragart",
   "main": "package/index.js",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "private": false,
   "dependencies": {
     "autoprefixer": "7.1.6",
