@@ -8,7 +8,7 @@ export default class DragArtCore extends React.Component {
   }
   componentDidMount() {
     document.addEventListener('click', (e) => {
-      if (e.target.className === 'dragart-box') {
+      if (e.target.className === 'dragart') {
         this.setState({ selected: null, usable: null })
       }
     })
@@ -37,11 +37,55 @@ export default class DragArtCore extends React.Component {
   onDoubleClick(e, idx) {
     this.setState({ usable: idx, selected: null })
   }
+  /**
+   * 作为drop的所有操作
+   */
+   // 拖拽进入的时候
+  onDragEnter(e) {
+    e.preventDefault();
+    this.dragDOM.classList.add('dragart-enter')
+  }
+  onDrop (event) {
+    let { dataTransfer, target, clientX, clientY } = event
+    // 用户设置的允许拖放的规则
+    const dropRule = this.props.dropRule
+    // 获取允许拖拽的规格
+    let $dropRule = dataTransfer.getData("data-rule")
+    // 匹配验证是否符合拖放规范
+    if (dropRule === $dropRule) {
+      // 获取拖放开始的初始位置
+      let $clientX = dataTransfer.getData('data-clientX')
+      let $clientY = dataTransfer.getData('data-clientY')
+      let x = clientX - $clientX - target.offsetLeft
+      let y = clientY  - $clientY - target.offsetTop
+      // 获取用户自定义设置的属性值
+      let $props = dataTransfer.getData('data-props')
+      $props =  JSON.parse($props) || {}
+      let result = { x, y, ...$props}
+      if (this.props.onDrop) {
+        this.props.onDrop(result)
+      }
+      this.dragDOM.classList.remove('dragart-enter')
+    }
+  }
+  onDragOver(e) {
+    e.preventDefault()
+  }
+  onDragLeave(e){
+    e.preventDefault()
+    this.dragDOM.classList.remove('dragart-enter')
+  }
   render() {
-    const { children } = this.props
+    const { children, dropRule } = this.props
+    let dropProps = typeof dropRule === 'string' ? {
+      onDragEnter: this.onDragEnter.bind(this),
+      onDragOver: this.onDragOver.bind(this),
+      onDrop: this.onDrop.bind(this),
+      onDragLeave: this.onDragLeave.bind(this)
+    } : {}
     return (
-      <div className="dragart">
-        <div className="dragart-box">
+      <div className="dragart" {...dropProps} ref={c => this.dragDOM = c }>
+        {/* <div className="dragart-box" ref={c => this.dragart = c}> */}
           {
             React.Children.map(children, (child, idx)=> {
               return {
@@ -58,12 +102,12 @@ export default class DragArtCore extends React.Component {
               }
             })
           }
-  
-        </div>
-        <div className="dragart-assist">
+{/*   
+        </div> */}
+        {/* <div className="dragart-assist">
           <span data-role="horizontal" ref={ c => this.horizontal = c}/>
           <span data-role="vertical" ref={ c => this.vertical = c}/>
-        </div>
+        </div> */}
       </div>
     )
   }

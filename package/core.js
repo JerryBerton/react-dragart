@@ -54,7 +54,7 @@ var DragArtCore = function (_React$Component) {
       var _this2 = this;
 
       document.addEventListener('click', function (e) {
-        if (e.target.className === 'dragart-box') {
+        if (e.target.className === 'dragart') {
           _this2.setState({ selected: null, usable: null });
         }
       });
@@ -85,75 +85,102 @@ var DragArtCore = function (_React$Component) {
     value: function onDoubleClick(e, idx) {
       this.setState({ usable: idx, selected: null });
     }
+    /**
+     * 作为drop的所有操作
+     */
+    // 拖拽进入的时候
+
+  }, {
+    key: 'onDragEnter',
+    value: function onDragEnter(e) {
+      e.preventDefault();
+      this.dragDOM.classList.add('dragart-enter');
+    }
+  }, {
+    key: 'onDrop',
+    value: function onDrop(event) {
+      var dataTransfer = event.dataTransfer,
+          target = event.target,
+          clientX = event.clientX,
+          clientY = event.clientY;
+      // 用户设置的允许拖放的规则
+
+      var dropRule = this.props.dropRule;
+      // 获取允许拖拽的规格
+      var $dropRule = dataTransfer.getData("data-rule");
+      // 匹配验证是否符合拖放规范
+      if (dropRule === $dropRule) {
+        // 获取拖放开始的初始位置
+        var $clientX = dataTransfer.getData('data-clientX');
+        var $clientY = dataTransfer.getData('data-clientY');
+        var x = clientX - $clientX - target.offsetLeft;
+        var y = clientY - $clientY - target.offsetTop;
+        // 获取用户自定义设置的属性值
+        var $props = dataTransfer.getData('data-props');
+        $props = JSON.parse($props) || {};
+        var result = Object.assign({ x: x, y: y }, $props);
+        if (this.props.onDrop) {
+          this.props.onDrop(result);
+        }
+        this.dragDOM.classList.remove('dragart-enter');
+      }
+    }
+  }, {
+    key: 'onDragOver',
+    value: function onDragOver(e) {
+      e.preventDefault();
+    }
+  }, {
+    key: 'onDragLeave',
+    value: function onDragLeave(e) {
+      e.preventDefault();
+      this.dragDOM.classList.remove('dragart-enter');
+    }
   }, {
     key: 'render',
     value: function render() {
       var _this3 = this;
 
-      var children = this.props.children;
+      var _props = this.props,
+          children = _props.children,
+          dropRule = _props.dropRule;
 
+      var dropProps = typeof dropRule === 'string' ? {
+        onDragEnter: this.onDragEnter.bind(this),
+        onDragOver: this.onDragOver.bind(this),
+        onDrop: this.onDrop.bind(this),
+        onDragLeave: this.onDragLeave.bind(this)
+      } : {};
       return _react2.default.createElement(
         'div',
-        _defineProperty({ className: 'dragart', __source: {
+        Object.assign({ className: 'dragart' }, dropProps, _defineProperty({ ref: function ref(c) {
+            return _this3.dragDOM = c;
+          }, __source: {
             fileName: _jsxFileName,
-            lineNumber: 43
+            lineNumber: 87
           },
           __self: this
-        }, '__self', this),
-        _react2.default.createElement(
-          'div',
-          _defineProperty({ className: 'dragart-box', __source: {
-              fileName: _jsxFileName,
-              lineNumber: 44
-            },
-            __self: this
-          }, '__self', this),
-          _react2.default.Children.map(children, function (child, idx) {
-            return Object.assign({}, child, {
-              props: Object.assign({}, child.props, {
-                selected: _this3.state.selected === idx,
-                usable: _this3.state.usable === idx,
-                onStart: function onStart(rct, e) {
-                  return _this3.onStart(idx, rct, e);
-                },
-                onReseize: function onReseize(rct, e) {
-                  return _this3.onReseize(idx, rct, e);
-                },
-                onClick: function onClick(e) {
-                  return _this3.onClick(e, idx);
-                },
-                onDoubleClick: function onDoubleClick(e) {
-                  return _this3.onDoubleClick(e, idx);
-                }
-              })
-            });
-          })
-        ),
-        _react2.default.createElement(
-          'div',
-          _defineProperty({ className: 'dragart-assist', __source: {
-              fileName: _jsxFileName,
-              lineNumber: 63
-            },
-            __self: this
-          }, '__self', this),
-          _react2.default.createElement('span', _defineProperty({ 'data-role': 'horizontal', ref: function ref(c) {
-              return _this3.horizontal = c;
-            }, __source: {
-              fileName: _jsxFileName,
-              lineNumber: 64
-            },
-            __self: this
-          }, '__self', this)),
-          _react2.default.createElement('span', _defineProperty({ 'data-role': 'vertical', ref: function ref(c) {
-              return _this3.vertical = c;
-            }, __source: {
-              fileName: _jsxFileName,
-              lineNumber: 65
-            },
-            __self: this
-          }, '__self', this))
-        )
+        }, '__self', this)),
+        _react2.default.Children.map(children, function (child, idx) {
+          return Object.assign({}, child, {
+            props: Object.assign({}, child.props, {
+              selected: _this3.state.selected === idx,
+              usable: _this3.state.usable === idx,
+              onStart: function onStart(rct, e) {
+                return _this3.onStart(idx, rct, e);
+              },
+              onReseize: function onReseize(rct, e) {
+                return _this3.onReseize(idx, rct, e);
+              },
+              onClick: function onClick(e) {
+                return _this3.onClick(e, idx);
+              },
+              onDoubleClick: function onDoubleClick(e) {
+                return _this3.onDoubleClick(e, idx);
+              }
+            })
+          });
+        })
       );
     }
   }]);
