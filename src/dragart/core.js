@@ -31,10 +31,16 @@ export default class DragArtCore extends React.Component {
   }
   onClick(e, idx) {
     if (this.state.usable !== idx) {
+      if (this.props.onSelect) {
+        this.props.onSelect(idx, e)
+      }
       this.setState({ selected: idx, usable: null })
     } 
   }
   onDoubleClick(e, idx) {
+    if (this.props.onUsable) {
+      this.props.onUsable(idx, e)
+    }
     this.setState({ usable: idx, selected: null })
   }
   /**
