@@ -6,12 +6,13 @@
   "dependencies": {
     "react": "^16.2.0",
     "react-dev-utils": "^5.0.0",
-    "react-dom": "^16.2.0"
+    "react-dom": "^16.2.0",
+    "react-github-button": "^0.1.11"
   },
   "scripts": {
     "start": "node scripts/start.js",
     "build": "node scripts/build.js",
-    "package": "NODE_ENV=development babel src/libs --out-dir ./package --presets=es2015,react-app",
+    "package": "NODE_ENV=development babel src/dragart --out-dir ./package --presets=es2015,react-app",
     "test": "node scripts/test.js --env=jsdom"
   },
   "jest": {

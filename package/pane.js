@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-var _jsxFileName = 'src/libs/pane.js';
+var _jsxFileName = 'src/dragart/pane.js';
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
@@ -78,7 +78,8 @@ var DragPane = function (_Component) {
 
           var children = props.children,
               data = props.data,
-              others = _objectWithoutProperties(props, ['children', 'data']);
+              WarpClass = props.WarpClass,
+              others = _objectWithoutProperties(props, ['children', 'data', 'WarpClass']);
 
           var $child = Object.assign({}, child, { props: Object.assign({
               children: children
@@ -86,7 +87,7 @@ var DragPane = function (_Component) {
           return _react2.default.createElement(
             'div',
             _defineProperty({
-              className: childClass,
+              className: WarpClass,
               onDragStart: function onDragStart(event) {
                 _this2.handleDragStart(event, data);
               },

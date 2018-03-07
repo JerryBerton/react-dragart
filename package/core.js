@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-var _jsxFileName = 'src/libs/core.js';
+var _jsxFileName = 'src/dragart/core.js';
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
@@ -77,12 +77,18 @@ var DragArtCore = function (_React$Component) {
     key: 'onClick',
     value: function onClick(e, idx) {
       if (this.state.usable !== idx) {
+        if (this.props.onSelect) {
+          this.props.onSelect(idx, e);
+        }
         this.setState({ selected: idx, usable: null });
       }
     }
   }, {
     key: 'onDoubleClick',
     value: function onDoubleClick(e, idx) {
+      if (this.props.onUsable) {
+        this.props.onUsable(idx, e);
+      }
       this.setState({ usable: idx, selected: null });
     }
     /**
@@ -157,7 +163,7 @@ var DragArtCore = function (_React$Component) {
             return _this3.dragDOM = c;
           }, __source: {
             fileName: _jsxFileName,
-            lineNumber: 87
+            lineNumber: 93
           },
           __self: this
         }, '__self', this)),

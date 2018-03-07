@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
+import GitHubButton from 'react-github-button';
 import DragArt from '../dragart'
+require('react-github-button/assets/style.css');
 let test = [
   { title: '测试一', width: 400, height: 300 },
   { title: '测试二', width: 200, height: 300 },
@@ -26,7 +28,14 @@ export default class App extends Component {
     return (
       <div className="app">
         <div className="app-list">
-      
+          <div className="app-git"> 
+            <GitHubButton 
+              type="stargazers" 
+              size="large" 
+              namespace="JerryBerton" 
+              repo="react-dragart" 
+            />
+          </div>
           <DragArt.Pane 
             className="test-drop" 
             dragRule="CPT"
