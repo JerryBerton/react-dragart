@@ -19,14 +19,14 @@ export default class DragPane extends Component {
       <div className={className}>
         {
           React.Children.map(children, ({ props, ...child}) => {
-            let { children, data, ...others } = props
+            let { children, data, WarpClass, ...others } = props
             let $child = { ...child, props: {
               children,
               ...others
             }}
             return (
               <div 
-                className={childClass} 
+                className={WarpClass} 
                 onDragStart={(event) => { this.handleDragStart(event, data)}}
                 draggable
               >
