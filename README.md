@@ -1,5 +1,5 @@
 ### react-dragart React拖拽库
-> [Example例子](www.jerryberton.cn/react-dragart/build/index.html)
+> [Example例子](http://www.jerryberton.cn/react-dragart/build/index.html)
 
 ### 使用文档
 
