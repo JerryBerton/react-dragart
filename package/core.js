@@ -49,6 +49,15 @@ var DragArtCore = function (_React$Component) {
   }
 
   _createClass(DragArtCore, [{
+    key: 'componentWillMount',
+    value: function componentWillMount() {
+      if (typeof this.props.selected === 'number') {
+        this.setState({
+          selected: this.props.selected
+        });
+      }
+    }
+  }, {
     key: 'componentDidMount',
     value: function componentDidMount() {
       var _this2 = this;
@@ -58,6 +67,14 @@ var DragArtCore = function (_React$Component) {
           _this2.setState({ selected: null, usable: null });
         }
       });
+    }
+  }, {
+    key: 'componentWillReceiveProps',
+    value: function componentWillReceiveProps(nextProps) {
+
+      if (typeof nextProps.selected === 'number' && this.props.selected !== nextProps.selected) {
+        this.setState({ selected: nextProps.selected });
+      }
     }
   }, {
     key: 'onStart',
@@ -163,7 +180,7 @@ var DragArtCore = function (_React$Component) {
             return _this3.dragDOM = c;
           }, __source: {
             fileName: _jsxFileName,
-            lineNumber: 93
+            lineNumber: 110
           },
           __self: this
         }, '__self', this)),

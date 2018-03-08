@@ -6,13 +6,30 @@ export default class DragArtCore extends React.Component {
     selected: null,
     usable: null
   }
+  componentWillMount() {
+    if (typeof this.props.selected === 'number') {
+      this.setState({
+        selected: this.props.selected
+      })
+    }
+  }
   componentDidMount() {
     document.addEventListener('click', (e) => {
       if (e.target.className === 'dragart') {
         this.setState({ selected: null, usable: null })
       }
     })
+
   }
+
+  componentWillReceiveProps(nextProps) {
+    
+    if (typeof nextProps.selected === 'number' && 
+      this.props.selected !== nextProps.selected) {
+      this.setState({ selected: nextProps.selected })
+    }
+  }
+
   onStart(idx, record, e) {
     if (this.props.onStart) {
       this.props.onStart(idx, record, e)

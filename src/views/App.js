@@ -11,11 +11,13 @@ let test = [
 ]
 export default class App extends Component {
   state = {
-    source: []
+    source: [],
+    selected: null
   }
   handleDrop = (record) => {
     this.setState({
-      source: [...this.state.source, record]
+      source: [...this.state.source, record],
+      selected: this.state.source.length
     })
   }
   handleResize = (index, record) => {
@@ -62,6 +64,7 @@ export default class App extends Component {
           </div>
           <div className="app-drop">
             <DragArt
+              selected={this.state.selected}
               dropRule="CPT"
               onDrop={this.handleDrop}
               onResize={this.handleResize}

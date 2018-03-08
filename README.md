@@ -23,6 +23,7 @@ yarn install  // 其他安装方式
 | 属性 |  类型 | 说明 |
 | ---- |-----|------|
 | className | string | 可拖拽的面板类|
+| selected | number | 当前移动的元素的索引（可选）|
 | dropRule | string | 接受规则 |
 | onDrop 	| function | 返回一个记录 |
 | onStart | function | 内部元素开始变化时回调（索引， 记录值， 事件对象）|
